@@ -1,16 +1,21 @@
 // Indentify url for data retrieval
 const url = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
-// Read in url to get data
-let data = d3.json(url);
 
-console.log("Data Promise: ", data);
+
+// Read in the data
+d3.json(url).then(function(data1){
+    console.log(data1);
+});
+
+
 
 // Function for the demographics box
+
 function demographicsBox (sample) {
-    d3.json(data).then((dataResult) => {
+    d3.json(url).then((dataResult) => {
         // Get all meta data
-        let metaData = dataResult.metaData;
+        let metaData = dataResult.metadata;
         console.log("metaData :", metaData);
 
         // Filter based on the value of the sample
@@ -33,11 +38,12 @@ function demographicsBox (sample) {
 
 // Function to create the bar chart
 function buildBarChart (sample) {
-    d3.json(data).then((dataResult) => {
+    d3.json(url).then((dataResult) => {
         // Get all samples
         let sampleData = dataResult.samples;
+        console.log(sampleData);
 
-        let result = sampleData.filter(sampleResult.id == sample);
+        let result = sampleData.filter(sampleResult => sampleResult.id == sample);
 
         // Access index 0
         let resultData = result[0];
@@ -76,11 +82,11 @@ function buildBarChart (sample) {
 
 // Function to create the bubble chart
 function buildBubbleChart (sample) {
-    d3.json(data).then((dataResult) => {
+    d3.json(url).then((dataResult) => {
         // Get all samples
         let sampleData = dataResult.samples;
 
-        let result = sampleData.filter(sampleResult.id == sample);
+        let result = sampleData.filter(sampleResult => sampleResult.id == sample);
 
         // Access index 0
         let resultData = result[0];
@@ -124,7 +130,7 @@ function buildBubbleChart (sample) {
 function buildGaugeChart(sample)
 {
     // use d3.json in order to get all of the data
-    d3.json(data).then((dataResult) => {
+    d3.json(url).then((dataResult) => {
         
         // get all of the metadata
         let metaData = dataResult.metadata;
@@ -186,7 +192,7 @@ function initialize()
     let select = d3.select("#selDataset");
 
     // use d3.json in order to get the sample names and populate the drop-down selector
-    d3.json(data).then((dataResult) => {
+    d3.json(url).then((dataResult) => {
         let sampleNames = dataResult.names;
         sampleNames.forEach((sample) => {
             select.append("option")
